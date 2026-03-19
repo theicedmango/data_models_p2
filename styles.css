@@ -483,10 +483,24 @@ h3 {
   font-weight: 700;
 }
 
+.chart.empty .grid,
+.chart.empty .danger-zone,
+.chart.empty .line-main,
+.chart.empty .points,
+.chart.empty .axis-labels {
+  display: none;
+}
+
 .chart-empty-text {
-  fill: rgba(40, 40, 48, 0.6);
-  font-size: 22px;
+  fill: rgba(40, 40, 48, 0.72);
+  font-size: 20px;
   font-weight: 800;
+}
+
+.chart-empty-subtext {
+  fill: rgba(40, 40, 48, 0.5);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .chart-tooltip {
