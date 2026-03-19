@@ -4,9 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Print Climate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Bonheur+Royale&family=Goudy+Bookletter+1911&family=IM+Fell+DW+Pica:ital@0;1&family=Manrope:wght@200..800&family=Moon+Dance&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -64,7 +67,7 @@
           <p class="eyebrow light-text">RIGHT NOW</p>
           <h2>
             The room is sitting at
-            <span class="dynamic-cyan" id="humiditySentence">--% humidity.</span>
+            <span class="dynamic-accent" id="humiditySentence">--% humidity.</span>
           </h2>
           <p class="body-copy light-text soft" id="roomMoodText">
             Waiting for the room to say something dramatic.
@@ -88,7 +91,7 @@
       </div>
     </section>
 
-    <!-- 24H STORY -->
+    <!-- HISTORY -->
     <section class="panel light grid-panel" id="day">
       <div class="bg-grid-fade reveal-bg"></div>
 
@@ -97,7 +100,7 @@
           <p class="eyebrow">ROOM HISTORY</p>
           <h2>
             Your room had a few
-            <span class="dynamic-green" id="moodSwingsText">mood swings.</span>
+            <span class="dynamic-accent" id="moodSwingsText">mood swings.</span>
           </h2>
           <p class="body-copy narrow" id="chartDescription">
             This chart tracks how humidity changes over time, so you can catch patterns instead of relying on one isolated reading.
@@ -105,27 +108,32 @@
         </div>
 
         <div class="range-switch">
-          <button class="active" type="button" data-range="week">7D</button>
+          <button class="active" type="button" data-range="24h">24 hours</button>
+          <button type="button" data-range="week">7D</button>
           <button type="button" data-range="month">30D</button>
-          <button type="button" data-range="latest">Latest</button>
         </div>
 
         <div class="chart-card">
-          <svg viewBox="0 0 1000 360" class="chart" aria-label="humidity chart">
-            <g class="grid">
-              <line x1="80" y1="60" x2="950" y2="60"></line>
-              <line x1="80" y1="120" x2="950" y2="120"></line>
-              <line x1="80" y1="180" x2="950" y2="180"></line>
-              <line x1="80" y1="240" x2="950" y2="240"></line>
-              <line x1="80" y1="300" x2="950" y2="300"></line>
-            </g>
+          <div class="chart-wrap">
+            <svg viewBox="0 0 1000 360" class="chart" aria-label="humidity chart">
+              <g class="grid">
+                <line x1="80" y1="60" x2="950" y2="60"></line>
+                <line x1="80" y1="120" x2="950" y2="120"></line>
+                <line x1="80" y1="180" x2="950" y2="180"></line>
+                <line x1="80" y1="240" x2="950" y2="240"></line>
+                <line x1="80" y1="300" x2="950" y2="300"></line>
+              </g>
 
-            <rect x="80" y="60" width="870" height="50" class="danger-zone"></rect>
+              <rect x="80" y="60" width="870" height="50" class="danger-zone"></rect>
 
-            <polyline id="chartLine" class="line-main" points=""></polyline>
-            <g id="chartPoints" class="points"></g>
-            <g id="chartLabels" class="axis-labels"></g>
-          </svg>
+              <polyline id="chartLine" class="line-main" points=""></polyline>
+              <g id="chartPoints" class="points"></g>
+              <g id="chartLabels" class="axis-labels"></g>
+              <g id="chartEmptyState"></g>
+            </svg>
+
+            <div id="chartTooltip" class="chart-tooltip hidden"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -172,7 +180,7 @@
       </div>
     </section>
 
-    <!-- WEEKLY SUMMARY -->
+    <!-- SUMMARY -->
     <section class="panel dark" id="week">
       <div class="bg-circle big-circle parallax reveal-bg" data-speed="0.1"></div>
 
@@ -181,7 +189,7 @@
           <p class="eyebrow light-text">SUMMARY</p>
           <h2>
             This room spent
-            <span class="dynamic-cyan" id="riskHoursText">-- hours</span>
+            <span class="dynamic-accent" id="riskHoursText">-- hours</span>
             in the “maybe dry your filament” zone.
           </h2>
         </div>
