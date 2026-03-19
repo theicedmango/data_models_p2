@@ -16,6 +16,7 @@ const lowValueEl = document.getElementById("lowValue");
 const riskHoursTextEl = document.getElementById("riskHoursText");
 const riskHoursValueEl = document.getElementById("riskHoursValue");
 
+const chartSvgEl = document.querySelector(".chart");
 const chartLineEl = document.getElementById("chartLine");
 const chartPointsEl = document.getElementById("chartPoints");
 const chartLabelsEl = document.getElementById("chartLabels");
@@ -122,7 +123,12 @@ function updateSummaryUI(data) {
   riskHoursValueEl.textContent = `${riskHours}h`;
 }
 
+function hideTooltip() {
+  chartTooltipEl.classList.add("hidden");
+}
+
 function clearChart() {
+  chartSvgEl.classList.remove("empty");
   chartLineEl.setAttribute("points", "");
   chartPointsEl.innerHTML = "";
   chartLabelsEl.innerHTML = "";
@@ -132,15 +138,24 @@ function clearChart() {
 
 function showEmptyChartMessage(message) {
   clearChart();
+  chartSvgEl.classList.add("empty");
 
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  text.setAttribute("x", "500");
-  text.setAttribute("y", "190");
-  text.setAttribute("text-anchor", "middle");
-  text.setAttribute("class", "chart-empty-text");
-  text.textContent = message;
+  const mainText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  mainText.setAttribute("x", "500");
+  mainText.setAttribute("y", "176");
+  mainText.setAttribute("text-anchor", "middle");
+  mainText.setAttribute("class", "chart-empty-text");
+  mainText.textContent = message;
 
-  chartEmptyStateEl.appendChild(text);
+  const subText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  subText.setAttribute("x", "500");
+  subText.setAttribute("y", "206");
+  subText.setAttribute("text-anchor", "middle");
+  subText.setAttribute("class", "chart-empty-subtext");
+  subText.textContent = "Try again once the sensor has gathered more readings across time.";
+
+  chartEmptyStateEl.appendChild(mainText);
+  chartEmptyStateEl.appendChild(subText);
 }
 
 function showTooltip(x, y, label, value) {
@@ -148,10 +163,6 @@ function showTooltip(x, y, label, value) {
   chartTooltipEl.classList.remove("hidden");
   chartTooltipEl.style.left = `${x}px`;
   chartTooltipEl.style.top = `${y}px`;
-}
-
-function hideTooltip() {
-  chartTooltipEl.classList.add("hidden");
 }
 
 function buildChart(labels, series, range, uniqueDays = 0) {
@@ -199,8 +210,7 @@ function buildChart(labels, series, range, uniqueDays = 0) {
     points.map((p) => `${p.x},${p.y}`).join(" ")
   );
 
-  const chartSvg = document.querySelector(".chart");
-  const svgRect = chartSvg.getBoundingClientRect();
+  const svgRect = chartSvgEl.getBoundingClientRect();
 
   points.forEach((p) => {
     const circle = document.createElementNS(
