@@ -54,16 +54,99 @@ function formatLabel(date, range) {
   const d = new Date(date);
 
   if (range === "24h") {
-    return d.toLocaleTimeString([], {
+    return d.toLocaleTimeString("en-CA", {
       hour: "numeric",
       minute: "2-digit",
+      hour12: true,
+      timeZone: "America/Toronto",
     });
   }
 
-  return d.toLocaleDateString([], {
+  return d.toLocaleDateString("en-CA", {
     month: "short",
     day: "numeric",
+    timeZone: "America/Toronto",
   });
+}
+
+function sampleDocs(docs, maxPoints) {
+  if (docs.length <= maxPoints) return docs;
+
+  const sampled = [];
+  const lastIndex = docs.length - 1;
+
+  for (let i = 0; i < maxPoints; i++) {
+    const index = Math.round((i / (maxPoints - 1)) * lastIndex);
+    sampled.push(docs[index]);
+  }
+
+  return sampled;
+}
+
+function groupDocsByDay(docs) {
+  const grouped = new Map();
+
+  docs.forEach((doc) => {
+    const d = new Date(doc.createdAt);
+
+    const key = d.toLocaleDateString("en-CA", {
+      timeZone: "America/Toronto",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+
+    if (!grouped.has(key)) {
+      grouped.set(key, []);
+    }
+
+    grouped.get(key).push(doc);
+  });
+
+  return Array.from(grouped.values()).map((group) => {
+    const avgHumidity =
+      group.reduce((sum, doc) => sum + Number(doc.humidity), 0) / group.length;
+
+    return {
+      createdAt: group[group.length - 1].createdAt,
+      humidity: avgHumidity,
+      source: group[group.length - 1].source || "unknown",
+    };
+  });
+}
+
+function countUniqueDays(docs) {
+  const uniqueDays = new Set();
+
+  docs.forEach((doc) => {
+    const d = new Date(doc.createdAt);
+    const key = d.toLocaleDateString("en-CA", {
+      timeZone: "America/Toronto",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    uniqueDays.add(key);
+  });
+
+  return uniqueDays.size;
+}
+
+function calculateRiskHours(rawDocs, threshold = 60) {
+  let riskHours = 0;
+
+  for (let i = 1; i < rawDocs.length; i++) {
+    const prev = rawDocs[i - 1];
+    const curr = rawDocs[i];
+
+    if (Number(prev.humidity) > threshold) {
+      const diffMs =
+        new Date(curr.createdAt).getTime() - new Date(prev.createdAt).getTime();
+      riskHours += diffMs / (1000 * 60 * 60);
+    }
+  }
+
+  return roundNumber(riskHours);
 }
 
 export default async function handler(req, res) {
@@ -91,7 +174,7 @@ export default async function handler(req, res) {
       const newReading = {
         city,
         humidity: parsedHumidity,
-        source: source || "unknown",
+        source: source || "esp32",
         createdAt: new Date(),
       };
 
@@ -112,10 +195,10 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
       const city = req.query.city || "Sensor";
       const range = req.query.range || "24h";
-
       const startDate = getRangeStart(range);
 
-      const docs = await readings
+      // raw docs for calculations / latest
+      const rawDocs = await readings
         .find({
           city,
           createdAt: { $gte: startDate },
@@ -123,7 +206,7 @@ export default async function handler(req, res) {
         .sort({ createdAt: 1 })
         .toArray();
 
-      if (!docs.length) {
+      if (!rawDocs.length) {
         return res.status(200).json({
           city,
           range,
@@ -135,31 +218,32 @@ export default async function handler(req, res) {
           latest: null,
           status: "unknown",
           riskHours: 0,
+          uniqueDays: 0,
         });
       }
 
-      const labels = docs.map((doc) => formatLabel(doc.createdAt, range));
-      const series = docs.map((doc) => roundNumber(doc.humidity));
+      const latestRaw = rawDocs[rawDocs.length - 1];
+      const uniqueDays = countUniqueDays(rawDocs);
 
-      const humidities = docs.map((doc) => doc.humidity);
-      const avg =
-        humidities.reduce((sum, val) => sum + val, 0) / humidities.length;
-      const high = Math.max(...humidities);
-      const low = Math.min(...humidities);
-      const latest = docs[docs.length - 1];
+      let chartDocs = [...rawDocs];
 
-      let riskHours = 0;
-
-      for (let i = 1; i < docs.length; i++) {
-        const prev = docs[i - 1];
-        const curr = docs[i];
-
-        if (prev.humidity > 60) {
-          const diffMs =
-            new Date(curr.createdAt).getTime() - new Date(prev.createdAt).getTime();
-          riskHours += diffMs / (1000 * 60 * 60);
-        }
+      if (range === "24h") {
+        // sample down hard so the chart stays readable
+        chartDocs = sampleDocs(rawDocs, 12);
+      } else if (range === "week" || range === "month") {
+        // one point per day
+        chartDocs = groupDocsByDay(rawDocs);
       }
+
+      const labels = chartDocs.map((doc) => formatLabel(doc.createdAt, range));
+      const series = chartDocs.map((doc) => roundNumber(Number(doc.humidity)));
+
+      const allHumidities = rawDocs.map((doc) => Number(doc.humidity));
+      const avg =
+        allHumidities.reduce((sum, val) => sum + val, 0) / allHumidities.length;
+      const high = Math.max(...allHumidities);
+      const low = Math.min(...allHumidities);
+      const riskHours = calculateRiskHours(rawDocs, 60);
 
       return res.status(200).json({
         city,
@@ -170,12 +254,13 @@ export default async function handler(req, res) {
         high: roundNumber(high),
         low: roundNumber(low),
         latest: {
-          humidity: roundNumber(latest.humidity),
-          createdAt: latest.createdAt,
-          source: latest.source,
+          humidity: roundNumber(Number(latestRaw.humidity)),
+          createdAt: latestRaw.createdAt,
+          source: latestRaw.source || "unknown",
         },
-        status: getThresholdStatus(latest.humidity),
-        riskHours: roundNumber(riskHours),
+        status: getThresholdStatus(Number(latestRaw.humidity)),
+        riskHours,
+        uniqueDays,
       });
     }
 
