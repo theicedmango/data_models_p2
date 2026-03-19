@@ -1,4 +1,4 @@
-let currentRange = "week";
+let currentRange = "24h";
 
 // ---------- DOM ----------
 const humidityValueEl = document.getElementById("humidityValue");
@@ -19,6 +19,8 @@ const riskHoursValueEl = document.getElementById("riskHoursValue");
 const chartLineEl = document.getElementById("chartLine");
 const chartPointsEl = document.getElementById("chartPoints");
 const chartLabelsEl = document.getElementById("chartLabels");
+const chartEmptyStateEl = document.getElementById("chartEmptyState");
+const chartTooltipEl = document.getElementById("chartTooltip");
 
 const rangeButtons = document.querySelectorAll(".range-switch button");
 const root = document.documentElement;
@@ -34,64 +36,57 @@ function formatTime(dateString) {
   });
 }
 
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
 function setThemeByHumidity(humidity) {
-  if (humidity <= 40) {
-    root.style.setProperty("--humidity-accent", "#5cc7d8");
-    root.style.setProperty("--mood-accent", "#22a352");
+  const fillPercent = `${clamp(humidity, 0, 100)}%`;
+  root.style.setProperty("--fill-percent", fillPercent);
+
+  if (humidity <= 45) {
+    root.style.setProperty("--humidity-accent", "#22A352");
     root.style.setProperty("--status-bg", "rgba(34, 163, 82, 0.14)");
-    root.style.setProperty("--status-text", "#17733a");
-    root.style.setProperty("--orb-accent", "#5cc7d8");
-    root.style.setProperty("--line-accent", "#22a352");
+    root.style.setProperty("--status-text", "#17733A");
+    root.style.setProperty("--orb-accent", "#22A352");
+    root.style.setProperty("--line-accent", "#22A352");
 
-    humidityStatusEl.textContent = "Very comfortable";
-    roomMoodTextEl.textContent = "This is the kind of room humidity your filament cannot really complain about.";
-    moodSwingsTextEl.textContent = "easy days.";
-    recommendationTitleEl.textContent = "Honestly, your room is behaving itself.";
-    recommendationTextEl.textContent =
-      "These conditions are pretty friendly for casual printing and general filament storage. Sealed storage is still smart, but nothing feels urgent.";
-  } else if (humidity <= 55) {
-    root.style.setProperty("--humidity-accent", "#5cc7d8");
-    root.style.setProperty("--mood-accent", "#22a352");
-    root.style.setProperty("--status-bg", "rgba(34, 163, 82, 0.14)");
-    root.style.setProperty("--status-text", "#17733a");
-    root.style.setProperty("--orb-accent", "#5cc7d8");
-    root.style.setProperty("--line-accent", "#22a352");
-
-    humidityStatusEl.textContent = "Pretty reasonable";
+    humidityStatusEl.textContent = "Pretty safe";
     roomMoodTextEl.textContent =
-      "Not awful. Not ideal. Kind of a “your filament won’t file a complaint yet” situation.";
-    moodSwingsTextEl.textContent = "mood swings.";
-    recommendationTitleEl.textContent = "Print if you want, just don’t get too comfortable.";
+      "This is the kind of room humidity that most filament can live with pretty comfortably.";
+    moodSwingsTextEl.textContent = "calm days.";
+    recommendationTitleEl.textContent =
+      "This is a pretty comfortable range for most printing.";
     recommendationTextEl.textContent =
-      "The room is workable right now, but if readings keep trending upward, storage and drying start becoming more important.";
-  } else if (humidity <= 65) {
-    root.style.setProperty("--humidity-accent", "#d89b3e");
-    root.style.setProperty("--mood-accent", "#d89b3e");
-    root.style.setProperty("--status-bg", "rgba(216, 155, 62, 0.18)");
-    root.style.setProperty("--status-text", "#9f6213");
-    root.style.setProperty("--orb-accent", "#d89b3e");
-    root.style.setProperty("--line-accent", "#d89b3e");
+      "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room.";
+  } else if (humidity <= 60) {
+    root.style.setProperty("--humidity-accent", "#CCA23C");
+    root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
+    root.style.setProperty("--status-text", "#8D6B15");
+    root.style.setProperty("--orb-accent", "#CCA23C");
+    root.style.setProperty("--line-accent", "#CCA23C");
 
-    humidityStatusEl.textContent = "Getting a bit damp";
+    humidityStatusEl.textContent = "Keep an eye on it";
     roomMoodTextEl.textContent =
-      "You are still in workable territory, but this is the point where exposed filament starts becoming less happy over time.";
+      "This is still workable, but this is where exposed filament can slowly start becoming less happy over time.";
     moodSwingsTextEl.textContent = "questionable choices.";
-    recommendationTitleEl.textContent = "Your filament is starting to side-eye you.";
+    recommendationTitleEl.textContent =
+      "This is still usable, but storage matters more now.";
     recommendationTextEl.textContent =
-      "You can still print, but PETG, TPU, and nylon would benefit from more careful storage and maybe a quick drying pass.";
+      "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out.";
   } else {
-    root.style.setProperty("--humidity-accent", "#d96b6b");
-    root.style.setProperty("--mood-accent", "#d96b6b");
-    root.style.setProperty("--status-bg", "rgba(217, 107, 107, 0.18)");
-    root.style.setProperty("--status-text", "#9c3535");
-    root.style.setProperty("--orb-accent", "#d96b6b");
-    root.style.setProperty("--line-accent", "#d96b6b");
+    root.style.setProperty("--humidity-accent", "#B63831");
+    root.style.setProperty("--status-bg", "rgba(182, 56, 49, 0.16)");
+    root.style.setProperty("--status-text", "#8E2C27");
+    root.style.setProperty("--orb-accent", "#B63831");
+    root.style.setProperty("--line-accent", "#B63831");
 
-    humidityStatusEl.textContent = "Not loving this";
+    humidityStatusEl.textContent = "Too humid";
     roomMoodTextEl.textContent =
-      "Yeah, this is the part where your filament starts developing trust issues.";
+      "Yeah, this is the point where your filament starts developing trust issues.";
     moodSwingsTextEl.textContent = "humidity drama.";
-    recommendationTitleEl.textContent = "This is dry-box territory.";
+    recommendationTitleEl.textContent =
+      "This is dry-box territory.";
     recommendationTextEl.textContent =
       "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
   }
@@ -126,15 +121,43 @@ function updateSummaryUI(data) {
   riskHoursValueEl.textContent = `${riskHours}h`;
 }
 
-function buildChart(labels, series) {
+function clearChart() {
   chartLineEl.setAttribute("points", "");
   chartPointsEl.innerHTML = "";
   chartLabelsEl.innerHTML = "";
+  chartEmptyStateEl.innerHTML = "";
+  hideTooltip();
+}
 
-  if (!labels.length || !series.length) {
-    chartLabelsEl.innerHTML = `
-      <text x="80" y="180">No humidity history yet. Let the sensor cook for a bit.</text>
-    `;
+function showEmptyChartMessage(message) {
+  clearChart();
+
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  text.setAttribute("x", "500");
+  text.setAttribute("y", "190");
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("class", "chart-empty-text");
+  text.textContent = message;
+
+  chartEmptyStateEl.appendChild(text);
+}
+
+function showTooltip(x, y, label, value) {
+  chartTooltipEl.innerHTML = `<strong>${value}%</strong><br>${label}`;
+  chartTooltipEl.classList.remove("hidden");
+  chartTooltipEl.style.left = `${x}px`;
+  chartTooltipEl.style.top = `${y}px`;
+}
+
+function hideTooltip() {
+  chartTooltipEl.classList.add("hidden");
+}
+
+function buildChart(labels, series) {
+  clearChart();
+
+  if (!labels.length || !series.length || labels.length < 2 || series.length < 2) {
+    showEmptyChartMessage("Not enough humidity history yet. Let the sensor work for a bit.");
     return;
   }
 
@@ -143,9 +166,8 @@ function buildChart(labels, series) {
   const yMin = 60;
   const yMax = 300;
 
-  const minVal = Math.min(...series, 30);
+  const minVal = Math.min(...series, 20);
   const maxVal = Math.max(...series, 80);
-
   const safeMin = Math.floor(minVal - 5);
   const safeMax = Math.ceil(maxVal + 5);
   const valRange = Math.max(1, safeMax - safeMin);
@@ -157,7 +179,7 @@ function buildChart(labels, series) {
         : xMin + (index / (labels.length - 1)) * (xMax - xMin);
 
     const y = yMax - ((value - safeMin) / valRange) * (yMax - yMin);
-    return { x, y, value };
+    return { x, y, value, label: labels[index] };
   });
 
   chartLineEl.setAttribute(
@@ -165,15 +187,26 @@ function buildChart(labels, series) {
     points.map((p) => `${p.x},${p.y}`).join(" ")
   );
 
+  const chartWrap = document.querySelector(".chart-wrap");
+  const svgRect = document.querySelector(".chart").getBoundingClientRect();
+  const wrapRect = chartWrap.getBoundingClientRect();
+
   points.forEach((p) => {
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", p.x);
     circle.setAttribute("cy", p.y);
     circle.setAttribute("r", "6");
+
+    circle.addEventListener("mouseenter", () => {
+      const relativeX = ((p.x / 1000) * svgRect.width);
+      const relativeY = ((p.y / 360) * svgRect.height);
+      showTooltip(relativeX, relativeY, p.label, p.value);
+    });
+
+    circle.addEventListener("mouseleave", hideTooltip);
     chartPointsEl.appendChild(circle);
   });
 
-  // Show up to 6 labels max so it does not get messy
   const maxLabels = 6;
   const step = Math.max(1, Math.ceil(labels.length / maxLabels));
 
@@ -194,28 +227,13 @@ function buildChart(labels, series) {
   });
 }
 
-async function fetchHumidity(range = "week") {
+async function fetchHumidity(range = "24h") {
   try {
     const res = await fetch(`/api/humidity?city=Sensor&range=${range}`);
     const data = await res.json();
 
     if (!res.ok) {
       throw new Error(data.error || "Failed to fetch humidity");
-    }
-
-    if (range === "latest") {
-      if (data.latest) {
-        updateLatestUI(data.latest);
-        avgValueEl.textContent = "--%";
-        highValueEl.textContent = "--%";
-        lowValueEl.textContent = "--%";
-        riskHoursTextEl.textContent = "-- hours";
-        riskHoursValueEl.textContent = "--h";
-        buildChart([], []);
-      } else {
-        updateLatestUI(null);
-      }
-      return;
     }
 
     updateLatestUI(data.latest);
@@ -225,6 +243,7 @@ async function fetchHumidity(range = "week") {
     console.error("Humidity fetch error:", error);
     humidityStatusEl.textContent = "Something broke";
     lastUpdatedEl.textContent = "Could not load sensor data";
+    showEmptyChartMessage("Not enough humidity history yet. Let the sensor work for a bit.");
   }
 }
 
