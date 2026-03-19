@@ -162,8 +162,6 @@ h3 {
   max-width: 760px;
 }
 
-/* HERO */
-
 .hero-right {
   display: flex;
   justify-content: center;
@@ -280,8 +278,6 @@ h3 {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
 }
 
-/* CURRENT STATUS TAGS */
-
 .mini-tags {
   display: flex;
   flex-wrap: wrap;
@@ -308,8 +304,6 @@ h3 {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.24);
 }
-
-/* ORB */
 
 .orb-wrap {
   display: flex;
@@ -369,8 +363,6 @@ h3 {
   color: white;
 }
 
-/* SECTIONS */
-
 .section-top {
   margin-bottom: 26px;
 }
@@ -408,8 +400,6 @@ h3 {
   color: white;
 }
 
-/* CHART */
-
 .chart-card {
   background: rgba(255, 255, 255, 0.7);
   border-radius: var(--radius-xl);
@@ -444,27 +434,25 @@ h3 {
 
 .line-main {
   fill: none;
-  stroke: var(--green);
+  stroke: var(--line-accent);
   stroke-width: 5;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: stroke 0.35s ease;
 }
 
 .points circle {
-  fill: var(--green);
+  fill: var(--line-accent);
   stroke: white;
   stroke-width: 3;
-  transition:
-    transform 0.18s ease,
-    fill 0.18s ease;
-  transform-origin: center;
+  transition: fill 0.35s ease;
 }
 
-.chart-card:hover .points circle {
-  fill: var(--cyan);
+.axis-labels text {
+  fill: rgba(40, 40, 48, 0.55);
+  font-size: 12px;
+  font-weight: 600;
 }
-
-/* MATERIALS */
 
 .material-grid {
   display: grid;
@@ -507,8 +495,6 @@ h3 {
   margin: 14px 0 0;
 }
 
-/* WEEKLY TILES */
-
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -548,8 +534,6 @@ h3 {
   line-height: 1;
   letter-spacing: -0.05em;
 }
-
-/* ACTION */
 
 .action-list {
   list-style: none;
@@ -622,8 +606,6 @@ h3 {
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.82);
 }
-
-/* PIPELINE */
 
 .pipeline-row {
   display: flex;
@@ -865,8 +847,6 @@ h3 {
     transform: translateY(0) rotate(0deg);
   }
 }
-
-/* RESPONSIVE */
 
 @media (max-width: 1100px) {
   .two-col,
