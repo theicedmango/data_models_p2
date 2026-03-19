@@ -26,16 +26,9 @@ async function connectToDatabase() {
 }
 
 function getThresholdStatus(humidity) {
-  if (humidity <= 40) {
-    return "good";
-  }
-  if (humidity <= 55) {
-    return "okay";
-  }
-  if (humidity <= 65) {
-    return "caution";
-  }
-  return "bad";
+  if (humidity <= 45) return "low";
+  if (humidity <= 60) return "medium";
+  return "high";
 }
 
 function getRangeStart(range) {
@@ -49,7 +42,7 @@ function getRangeStart(range) {
     case "month":
       return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     default:
-      return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return new Date(now.getTime() - 24 * 60 * 60 * 1000);
   }
 }
 
@@ -107,39 +100,18 @@ export default async function handler(req, res) {
       return res.status(201).json({
         success: true,
         message: "Humidity reading saved",
-        reading: newReading,
+        reading: {
+          city: newReading.city,
+          humidity: roundNumber(newReading.humidity),
+          source: newReading.source,
+          createdAt: newReading.createdAt,
+        },
       });
     }
 
     if (req.method === "GET") {
       const city = req.query.city || "Sensor";
-      const range = req.query.range || "week";
-
-      // latest reading only
-      if (range === "latest") {
-        const latestReading = await readings.findOne(
-          { city },
-          { sort: { createdAt: -1 } }
-        );
-
-        if (!latestReading) {
-          return res.status(200).json({
-            city,
-            latest: null,
-            humidity: null,
-            status: "unknown",
-            lastUpdated: null,
-          });
-        }
-
-        return res.status(200).json({
-          city,
-          latest: latestReading,
-          humidity: roundNumber(latestReading.humidity),
-          status: getThresholdStatus(latestReading.humidity),
-          lastUpdated: latestReading.createdAt,
-        });
-      }
+      const range = req.query.range || "24h";
 
       const startDate = getRangeStart(range);
 
@@ -176,14 +148,15 @@ export default async function handler(req, res) {
       const low = Math.min(...humidities);
       const latest = docs[docs.length - 1];
 
-      // rough estimate of time spent above 55%
       let riskHours = 0;
+
       for (let i = 1; i < docs.length; i++) {
         const prev = docs[i - 1];
         const curr = docs[i];
 
-        if (prev.humidity > 55) {
-          const diffMs = new Date(curr.createdAt) - new Date(prev.createdAt);
+        if (prev.humidity > 60) {
+          const diffMs =
+            new Date(curr.createdAt).getTime() - new Date(prev.createdAt).getTime();
           riskHours += diffMs / (1000 * 60 * 60);
         }
       }
@@ -210,7 +183,7 @@ export default async function handler(req, res) {
       error: "Method not allowed",
     });
   } catch (error) {
-    console.error("API error:", error);
+    console.error("Humidity API error:", error);
 
     return res.status(500).json({
       error: "Internal server error",
