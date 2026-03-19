@@ -28,11 +28,13 @@ const root = document.documentElement;
 // ---------- Helpers ----------
 function formatTime(dateString) {
   const date = new Date(dateString);
-  return date.toLocaleString([], {
+  return date.toLocaleString("en-CA", {
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    hour12: true,
+    timeZone: "America/Toronto",
   });
 }
 
@@ -85,8 +87,7 @@ function setThemeByHumidity(humidity) {
     roomMoodTextEl.textContent =
       "Yeah, this is the point where your filament starts developing trust issues.";
     moodSwingsTextEl.textContent = "humidity drama.";
-    recommendationTitleEl.textContent =
-      "This is dry-box territory.";
+    recommendationTitleEl.textContent = "This is dry-box territory.";
     recommendationTextEl.textContent =
       "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
   }
@@ -153,11 +154,22 @@ function hideTooltip() {
   chartTooltipEl.classList.add("hidden");
 }
 
-function buildChart(labels, series) {
+function buildChart(labels, series, range, uniqueDays = 0) {
   clearChart();
 
-  if (!labels.length || !series.length || labels.length < 2 || series.length < 2) {
-    showEmptyChartMessage("Not enough humidity history yet. Let the sensor work for a bit.");
+  const notEnoughForLongRange =
+    (range === "week" || range === "month") && uniqueDays < 2;
+
+  if (
+    !labels.length ||
+    !series.length ||
+    labels.length < 2 ||
+    series.length < 2 ||
+    notEnoughForLongRange
+  ) {
+    showEmptyChartMessage(
+      "Not enough humidity history yet. Let the sensor work for a bit."
+    );
     return;
   }
 
@@ -187,23 +199,26 @@ function buildChart(labels, series) {
     points.map((p) => `${p.x},${p.y}`).join(" ")
   );
 
-  const chartWrap = document.querySelector(".chart-wrap");
-  const svgRect = document.querySelector(".chart").getBoundingClientRect();
-  const wrapRect = chartWrap.getBoundingClientRect();
+  const chartSvg = document.querySelector(".chart");
+  const svgRect = chartSvg.getBoundingClientRect();
 
   points.forEach((p) => {
-    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    const circle = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
     circle.setAttribute("cx", p.x);
     circle.setAttribute("cy", p.y);
     circle.setAttribute("r", "6");
 
     circle.addEventListener("mouseenter", () => {
-      const relativeX = ((p.x / 1000) * svgRect.width);
-      const relativeY = ((p.y / 360) * svgRect.height);
+      const relativeX = (p.x / 1000) * svgRect.width;
+      const relativeY = (p.y / 360) * svgRect.height;
       showTooltip(relativeX, relativeY, p.label, p.value);
     });
 
     circle.addEventListener("mouseleave", hideTooltip);
+
     chartPointsEl.appendChild(circle);
   });
 
@@ -238,12 +253,20 @@ async function fetchHumidity(range = "24h") {
 
     updateLatestUI(data.latest);
     updateSummaryUI(data);
-    buildChart(data.labels || [], data.series || []);
+
+    buildChart(
+      data.labels || [],
+      data.series || [],
+      range,
+      data.uniqueDays || 0
+    );
   } catch (error) {
     console.error("Humidity fetch error:", error);
     humidityStatusEl.textContent = "Something broke";
     lastUpdatedEl.textContent = "Could not load sensor data";
-    showEmptyChartMessage("Not enough humidity history yet. Let the sensor work for a bit.");
+    showEmptyChartMessage(
+      "Not enough humidity history yet. Let the sensor work for a bit."
+    );
   }
 }
 
