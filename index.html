@@ -45,11 +45,11 @@
           <div class="hero-stat-card">
             <span class="stat-label">Current Humidity</span>
             <div class="hero-stat">
-              <span class="hero-number" id="humidityValue">47</span>
+              <span class="hero-number" id="humidityValue">--</span>
               <span class="hero-unit">%</span>
             </div>
-            <span class="status-pill good" id="humidityStatus">Pretty reasonable</span>
-            <p class="micro-note" id="lastUpdated">Last updated 12:05 PM</p>
+            <span class="status-pill good" id="humidityStatus">Loading...</span>
+            <p class="micro-note" id="lastUpdated">Waiting for sensor data</p>
           </div>
         </div>
       </div>
@@ -64,16 +64,14 @@
           <p class="eyebrow light-text">RIGHT NOW</p>
           <h2>
             The room is sitting at
-            <span class="dynamic-cyan" id="humiditySentence">47% humidity.</span>
+            <span class="dynamic-cyan" id="humiditySentence">--% humidity.</span>
           </h2>
-          <p class="body-copy light-text soft">
-            Not awful. Not ideal. Kind of a
-            “your filament won’t file a complaint yet”
-            situation.
+          <p class="body-copy light-text soft" id="roomMoodText">
+            Waiting for the room to say something dramatic.
           </p>
 
           <div class="mini-tags">
-            <span class="mini-tag">PLA is probably fine</span>
+            <span class="mini-tag">PLA is usually forgiving</span>
             <span class="mini-tag">PETG, keep an eye on it</span>
             <span class="mini-tag">Nylon would like a dry box</span>
           </div>
@@ -83,7 +81,7 @@
           <div class="humidity-orb" id="humidityOrb">
             <div class="orb-inner">
               <span>Humidity</span>
-              <strong id="orbValue">47%</strong>
+              <strong id="orbValue">--%</strong>
             </div>
           </div>
         </div>
@@ -96,25 +94,24 @@
 
       <div class="panel-inner">
         <div class="section-top">
-          <p class="eyebrow">LAST 24 HOURS</p>
+          <p class="eyebrow">ROOM HISTORY</p>
           <h2>
             Your room had a few
             <span class="dynamic-green" id="moodSwingsText">mood swings.</span>
           </h2>
-          <p class="body-copy narrow">
-            A quick spike will not always ruin a print, but repeated humidity changes can slowly
-            affect exposed filament. This chart helps show the pattern instead of just a single number.
+          <p class="body-copy narrow" id="chartDescription">
+            This chart tracks how humidity changes over time, so you can catch patterns instead of relying on one isolated reading.
           </p>
         </div>
 
         <div class="range-switch">
-          <button class="active" type="button">24H</button>
-          <button type="button">7D</button>
-          <button type="button">30D</button>
+          <button class="active" type="button" data-range="week">7D</button>
+          <button type="button" data-range="month">30D</button>
+          <button type="button" data-range="latest">Latest</button>
         </div>
 
         <div class="chart-card">
-          <svg viewBox="0 0 1000 360" class="chart" aria-label="24 hour humidity chart">
+          <svg viewBox="0 0 1000 360" class="chart" aria-label="humidity chart">
             <g class="grid">
               <line x1="80" y1="60" x2="950" y2="60"></line>
               <line x1="80" y1="120" x2="950" y2="120"></line>
@@ -125,26 +122,9 @@
 
             <rect x="80" y="60" width="870" height="50" class="danger-zone"></rect>
 
-            <polyline
-              class="line-main"
-              points="80,220 150,200 220,205 290,180 360,145 430,160 500,130 570,150 640,190 710,180 780,210 850,175 920,165"
-            ></polyline>
-
-            <g class="points">
-              <circle cx="80" cy="220" r="6"></circle>
-              <circle cx="150" cy="200" r="6"></circle>
-              <circle cx="220" cy="205" r="6"></circle>
-              <circle cx="290" cy="180" r="6"></circle>
-              <circle cx="360" cy="145" r="6"></circle>
-              <circle cx="430" cy="160" r="6"></circle>
-              <circle cx="500" cy="130" r="6"></circle>
-              <circle cx="570" cy="150" r="6"></circle>
-              <circle cx="640" cy="190" r="6"></circle>
-              <circle cx="710" cy="180" r="6"></circle>
-              <circle cx="780" cy="210" r="6"></circle>
-              <circle cx="850" cy="175" r="6"></circle>
-              <circle cx="920" cy="165" r="6"></circle>
-            </g>
+            <polyline id="chartLine" class="line-main" points=""></polyline>
+            <g id="chartPoints" class="points"></g>
+            <g id="chartLabels" class="axis-labels"></g>
           </svg>
         </div>
       </div>
@@ -155,7 +135,7 @@
       <div class="bg-pill-group reveal-bg">
         <span class="parallax" data-speed="0.08"></span>
         <span class="parallax" data-speed="0.12"></span>
-        <span class="parallax" data-speed="0.1"></span>
+        <span class="parallax" data-speed="0.10"></span>
       </div>
 
       <div class="panel-inner">
@@ -171,24 +151,21 @@
           <article class="material-box">
             <h3>PLA</h3>
             <p>
-              Usually the least dramatic one in the room. Short-term exposure is often fine,
-              but it still deserves better than being left out forever.
+              Usually the least dramatic one in the room. It can tolerate more day-to-day variation, but better storage is still a smart habit.
             </p>
           </article>
 
           <article class="material-box">
             <h3>PETG</h3>
             <p>
-              More likely to pick up moisture over time. If the room keeps climbing,
-              drying it before a serious print is probably a smart move.
+              More likely to absorb moisture over time. If the room stays humid, drying it before an important print is probably worth it.
             </p>
           </article>
 
           <article class="material-box">
             <h3>TPU / Nylon</h3>
             <p>
-              These are the divas. If the humidity hangs around too long,
-              they will absolutely make it your problem later.
+              These are the divas. If the humidity hangs around too long, they will absolutely make it your problem later.
             </p>
           </article>
         </div>
@@ -201,30 +178,30 @@
 
       <div class="panel-inner">
         <div class="section-top">
-          <p class="eyebrow light-text">WEEKLY SUMMARY</p>
+          <p class="eyebrow light-text">SUMMARY</p>
           <h2>
-            This week, your room spent
-            <span class="dynamic-cyan" id="riskHoursText">6.2 hours</span>
+            This room spent
+            <span class="dynamic-cyan" id="riskHoursText">-- hours</span>
             in the “maybe dry your filament” zone.
           </h2>
         </div>
 
         <div class="stats-grid">
           <div class="stat-tile">
-            <span class="tile-label">Weekly Average</span>
-            <strong>44%</strong>
+            <span class="tile-label">Average</span>
+            <strong id="avgValue">--%</strong>
           </div>
           <div class="stat-tile">
             <span class="tile-label">Highest Reading</span>
-            <strong>58%</strong>
+            <strong id="highValue">--%</strong>
           </div>
           <div class="stat-tile">
             <span class="tile-label">Lowest Reading</span>
-            <strong>36%</strong>
+            <strong id="lowValue">--%</strong>
           </div>
           <div class="stat-tile">
             <span class="tile-label">Risk Hours</span>
-            <strong>6.2h</strong>
+            <strong id="riskHoursValue">--h</strong>
           </div>
         </div>
       </div>
@@ -249,10 +226,9 @@
 
         <div class="action-card">
           <span class="status-pill warn">Current recommendation</span>
-          <h3 id="recommendationTitle">Print if you want, just don’t get too comfortable.</h3>
+          <h3 id="recommendationTitle">Loading recommendation...</h3>
           <p id="recommendationText">
-            The room is workable right now, but if readings keep trending upward,
-            storage and drying start becoming more important.
+            Waiting for your humidity data so the room can start judging your filament habits.
           </p>
         </div>
       </div>
