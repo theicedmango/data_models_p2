@@ -412,7 +412,7 @@ h3 {
   color: white;
 }
 
-.range-switch:hover {
+.range-switch button:hover {
   transform: scale(1.1);
 }
 
