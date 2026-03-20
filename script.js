@@ -206,7 +206,8 @@ function buildChart(labels, series, range, uniqueDays = 0) {
   clearChart();
 
   const notEnoughForLongRange =
-    (range === "week" || range === "month") && uniqueDays < 2;
+    (range === "week" && uniqueDays < 6) ||
+    (range === "month" && uniqueDays < 29);
 
   if (
     !labels.length ||
