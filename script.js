@@ -24,6 +24,10 @@ const chartEmptyStateEl = document.getElementById("chartEmptyState");
 const chartTooltipEl = document.getElementById("chartTooltip");
 
 const rangeButtons = document.querySelectorAll(".range-switch button");
+const parallaxElements = document.querySelectorAll(".parallax");
+const revealElements = document.querySelectorAll(".reveal-bg");
+const heroCard = document.querySelector(".hero-stat-card");
+
 const root = document.documentElement;
 
 // ---------- Helpers ----------
@@ -291,8 +295,6 @@ rangeButtons.forEach((button) => {
 });
 
 // ---------- Background reveals ----------
-const revealElements = document.querySelectorAll(".reveal-bg");
-
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -307,8 +309,6 @@ const revealObserver = new IntersectionObserver(
 revealElements.forEach((el) => revealObserver.observe(el));
 
 // ---------- Parallax ----------
-const parallaxElements = document.querySelectorAll(".parallax");
-
 function handleParallax() {
   const scrollY = window.scrollY;
 
@@ -322,17 +322,7 @@ function handleParallax() {
 window.addEventListener("scroll", handleParallax, { passive: true });
 handleParallax();
 
-// ---------- Initial load ----------
-fetchHumidity(currentRange);
-
-// Refresh every 60 seconds
-setInterval(() => {
-  fetchHumidity(currentRange);
-}, 60000);
-
-// ---------- HERO CARD TILT ----------
-const heroCard = document.querySelector(".hero-stat-card");
-
+// ---------- Hero card tilt ----------
 if (heroCard) {
   heroCard.addEventListener("mousemove", (event) => {
     const rect = heroCard.getBoundingClientRect();
@@ -342,13 +332,23 @@ if (heroCard) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateY = ((x - centerX) / centerX) * 6;
-    const rotateX = ((centerY - y) / centerY) * 6;
+    const rotateY = ((x - centerX) / centerX) * 7;
+    const rotateX = ((centerY - y) / centerY) * 7;
 
-    heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    heroCard.style.transform =
+      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 
   heroCard.addEventListener("mouseleave", () => {
-    heroCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    heroCard.style.transform =
+      "perspective(1000px) rotateX(0deg) rotateY(0deg)";
   });
 }
+
+// ---------- Initial load ----------
+fetchHumidity(currentRange);
+
+// Refresh every 60 seconds
+setInterval(() => {
+  fetchHumidity(currentRange);
+}, 60000);
