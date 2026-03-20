@@ -942,36 +942,3 @@ h3 {
     max-width: none;
   }
 }
-
-/* =========================================
-   ACTION SECTION FIX (SAFE PATCH)
-========================================= */
-
-/* prevent stretching */
-#action .split-large {
-  align-items: start;
-}
-
-/* create proper left column structure */
-#action .copy-block {
-  display: flex;
-  flex-direction: column;
-}
-
-/* separate list from heading */
-#action .action-list {
-  margin-top: 28px;
-  max-width: 480px;
-}
-
-/* align card with bottom of list */
-#action .panel-inner.split-large > .action-card {
-  align-self: end;
-}
-
-/* prevent full-height stretching */
-#action .action-card {
-  height: auto;
-  max-width: 480px;
-  width: 100%;
-}
