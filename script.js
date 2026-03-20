@@ -65,7 +65,7 @@ function setThemeByHumidity(humidity) {
     recommendationTitleEl.textContent =
       "This is a pretty comfortable range for most printing.";
     recommendationTextEl.textContent =
-      "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room.";
+      "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room. You are all good so don't worry much, just be mindful of the humidity";
   } else if (humidity <= 60) {
     root.style.setProperty("--humidity-accent", "#CCA23C");
     root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
@@ -80,7 +80,7 @@ function setThemeByHumidity(humidity) {
     recommendationTitleEl.textContent =
       "This is still usable, but storage matters more now.";
     recommendationTextEl.textContent =
-      "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out.";
+      "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out. Be very mindful of humidity and look into dry-boxes for sensitive filaments.";
   } else {
     root.style.setProperty("--humidity-accent", "#B63831");
     root.style.setProperty("--status-bg", "rgba(182, 56, 49, 0.16)");
@@ -94,7 +94,7 @@ function setThemeByHumidity(humidity) {
     moodSwingsTextEl.textContent = "humidity drama.";
     recommendationTitleEl.textContent = "This is dry-box territory.";
     recommendationTextEl.textContent =
-      "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
+      "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended. Also check out Bambu Lab's official filament drying and storage guide.";
   }
 }
 
