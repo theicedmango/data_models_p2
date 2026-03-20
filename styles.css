@@ -464,7 +464,7 @@ h3 {
 .line-main {
   fill: none;
   stroke: var(--line-accent);
-  stroke-width: 5;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: stroke 0.35s ease;
