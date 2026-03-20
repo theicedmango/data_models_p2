@@ -24,7 +24,6 @@
   --radius-lg: 24px;
   --radius-md: 18px;
 
-  /* dynamic theme variables controlled by JS later */
   --humidity-accent: #22A352;
   --status-bg: rgba(34, 163, 82, 0.14);
   --status-text: #17733a;
@@ -93,7 +92,7 @@ body {
 
 .two-col {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.35fr 0.65fr;
   gap: 48px;
   align-items: center;
 }
@@ -129,14 +128,14 @@ h1 {
   font-size: clamp(3.4rem, 8vw, 7.2rem);
   line-height: 0.95;
   font-weight: 800;
-  max-width: 20ch;
+  max-width: none;
 }
 
 h2 {
   font-size: clamp(2.2rem, 5vw, 4.8rem);
   line-height: 1.02;
   font-weight: 800;
-  max-width: 20ch;
+  max-width: none;
 }
 
 h3 {
@@ -171,6 +170,42 @@ h3 {
   transition: color 0.35s ease;
 }
 
+/* ===== HEADING WIDTH CONTROL ===== */
+
+.hero-left h1 {
+  max-width: 8.6ch;
+}
+
+#day .section-top {
+  max-width: 1280px;
+}
+
+#day .section-top h2 {
+  white-space: nowrap;
+  font-size: clamp(2rem, 4.35vw, 4.8rem);
+  max-width: none;
+}
+
+#week .section-top h2 {
+  max-width: 13.8ch;
+}
+
+#action .split-large {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+#action .copy-block h2 {
+  max-width: 7.8ch;
+}
+
+#action .action-card h3 {
+  max-width: 14ch;
+}
+
+#pipeline .section-top h2 {
+  max-width: 15ch;
+}
+
 /* HERO */
 
 .hero-right {
@@ -186,16 +221,11 @@ h3 {
   min-width: 320px;
   box-shadow: var(--shadow);
   transition:
-    transform 0.28s ease,
+    transform 0.18s ease,
     box-shadow 0.28s ease,
     background-color 0.28s ease;
   cursor: default;
-}
-
-.hero-stat-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: var(--shadow-hover);
-  background: rgba(255, 255, 255, 0.86);
+  transform-style: preserve-3d;
 }
 
 .stat-label {
@@ -242,7 +272,6 @@ h3 {
   font-weight: 800;
   font-size: 0.95rem;
   transition:
-    transform 0.22s ease,
     background-color 0.22s ease,
     box-shadow 0.22s ease,
     color 0.22s ease;
@@ -256,10 +285,6 @@ h3 {
 .status-pill.warn {
   background: rgba(204, 162, 60, 0.16);
   color: #8d6b15;
-}
-
-.hero-stat-card:hover .status-pill {
-  transform: scale(1.05);
 }
 
 .hero-pills {
@@ -297,10 +322,6 @@ h3 {
   font-weight: 700;
   font-size: 0.95rem;
   background: rgba(255, 255, 255, 0.06);
-  transition:
-    transform 0.22s ease,
-    background-color 0.22s ease,
-    border-color 0.22s ease;
 }
 
 /* ORB */
@@ -327,17 +348,7 @@ h3 {
   box-shadow:
     inset 0 0 0 16px rgba(255, 255, 255, 0.08),
     0 20px 60px rgba(0, 0, 0, 0.2);
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    background 0.5s ease;
-}
-
-.humidity-orb:hover {
-  transform: scale(1.03);
-  box-shadow:
-    inset 0 0 0 16px rgba(255, 255, 255, 0.08),
-    0 26px 70px rgba(0, 0, 0, 0.24);
+  transition: background 0.5s ease;
 }
 
 .orb-inner {
@@ -393,17 +404,7 @@ h3 {
   font-weight: 800;
   font-size: 0.95rem;
   box-shadow: var(--shadow);
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.range-switch button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  cursor: default;
 }
 
 .range-switch button.active {
@@ -418,10 +419,6 @@ h3 {
   border-radius: var(--radius-xl);
   padding: 24px;
   box-shadow: var(--shadow);
-  transition:
-    transform 0.28s ease,
-    box-shadow 0.28s ease,
-    background-color 0.28s ease;
 }
 
 .chart-wrap {
@@ -456,14 +453,7 @@ h3 {
   fill: var(--line-accent);
   stroke: white;
   stroke-width: 3;
-  transition:
-    fill 0.35s ease,
-    r 0.18s ease,
-    transform 0.18s ease;
-}
-
-.points circle:hover {
-  r: 8;
+  transition: fill 0.35s ease;
 }
 
 .axis-labels text {
@@ -535,20 +525,6 @@ h3 {
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
   border: 1px solid transparent;
-  transition:
-    transform 0.26s ease,
-    box-shadow 0.26s ease,
-    background-color 0.26s ease,
-    border-color 0.26s ease;
-  cursor: default;
-}
-
-.material-box h3 {
-  transition: color 0.22s ease;
-}
-
-.material-box:hover h3 {
-  color: var(--low-humidity);
 }
 
 .material-box p {
@@ -570,12 +546,6 @@ h3 {
   border-radius: var(--radius-xl);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition:
-    transform 0.24s ease,
-    background-color 0.24s ease,
-    border-color 0.24s ease,
-    box-shadow 0.24s ease;
-  cursor: default;
 }
 
 .tile-label {
@@ -610,11 +580,6 @@ h3 {
   font-weight: 800;
   box-shadow: var(--shadow);
   position: relative;
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease,
-    background-color 0.22s ease;
-  cursor: default;
 }
 
 .action-list li::before {
@@ -626,7 +591,6 @@ h3 {
   width: 0;
   border-radius: 999px;
   background: var(--low-humidity);
-  transition: width 0.22s ease;
 }
 
 .action-card {
@@ -635,10 +599,6 @@ h3 {
   padding: 28px;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
-  transition:
-    transform 0.26s ease,
-    box-shadow 0.26s ease,
-    background-color 0.26s ease;
 }
 
 .action-card h3 {
@@ -669,12 +629,6 @@ h3 {
   border-radius: 20px;
   min-width: 150px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition:
-    transform 0.22s ease,
-    background-color 0.22s ease,
-    border-color 0.22s ease,
-    box-shadow 0.22s ease;
-  cursor: default;
 }
 
 .pipe-card span {
@@ -694,7 +648,6 @@ h3 {
   font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.58);
   font-weight: 800;
-  transition: transform 0.2s ease;
 }
 
 /* BACKGROUND GRAPHICS */
@@ -891,8 +844,22 @@ h3 {
   .two-col,
   .split-large,
   .material-grid,
-  .stats-grid {
+  .stats-grid,
+  #action .split-large {
     grid-template-columns: 1fr;
+  }
+
+  #day .section-top h2 {
+    white-space: normal;
+    max-width: 13ch;
+    font-size: clamp(2rem, 5vw, 4.8rem);
+  }
+
+  .hero-left h1,
+  #week .section-top h2,
+  #action .copy-block h2,
+  #pipeline .section-top h2 {
+    max-width: none;
   }
 
   .humidity-orb {
@@ -943,5 +910,10 @@ h3 {
   .chart-tooltip {
     font-size: 0.82rem;
     min-width: 120px;
+  }
+
+  #day .section-top h2 {
+    white-space: normal;
+    max-width: none;
   }
 }
