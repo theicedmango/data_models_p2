@@ -92,7 +92,7 @@ body {
 
 .two-col {
   display: grid;
-  grid-template-columns: 1.35fr 0.65fr;
+  grid-template-columns: 1.5fr 0.65fr;
   gap: 48px;
   align-items: center;
 }
