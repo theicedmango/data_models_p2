@@ -203,7 +203,7 @@ h3 {
 }
 
 #action .copy-block h2 {
-  max-width: 13ch;
+  max-width: 15ch;
 }
 
 #action .action-card h3 {
@@ -626,7 +626,7 @@ h3 {
   font-size: 2rem;
   margin: 16px 0 14px;
   line-height: 1.1;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .action-card p {
