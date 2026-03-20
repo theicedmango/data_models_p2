@@ -47,6 +47,7 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
+// ---------- Theme / content updates ----------
 function setThemeByHumidity(humidity) {
   const fillPercent = `${clamp(humidity, 0, 100)}%`;
   root.style.setProperty("--fill-percent", fillPercent);
@@ -58,14 +59,20 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#22A352");
     root.style.setProperty("--line-accent", "#22A352");
 
-    humidityStatusEl.textContent = "Pretty safe";
-    roomMoodTextEl.textContent =
-      "This is the kind of room humidity that most filament can live with pretty comfortably.";
-    moodSwingsTextEl.textContent = "calm days.";
-    recommendationTitleEl.textContent =
-      "This is a pretty comfortable range for most printing.";
-    recommendationTextEl.textContent =
-      "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room. You are all good so don't worry much, just be mindful of the humidity";
+    if (humidityStatusEl) humidityStatusEl.textContent = "Pretty safe";
+    if (roomMoodTextEl) {
+      roomMoodTextEl.textContent =
+        "This is the kind of room humidity that most filament can live with pretty comfortably.";
+    }
+    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "calm days.";
+    if (recommendationTitleEl) {
+      recommendationTitleEl.textContent =
+        "This is a pretty comfortable range for most printing.";
+    }
+    if (recommendationTextEl) {
+      recommendationTextEl.textContent =
+        "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room.";
+    }
   } else if (humidity <= 60) {
     root.style.setProperty("--humidity-accent", "#CCA23C");
     root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
@@ -73,14 +80,20 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#CCA23C");
     root.style.setProperty("--line-accent", "#CCA23C");
 
-    humidityStatusEl.textContent = "Keep an eye on it";
-    roomMoodTextEl.textContent =
-      "This is still workable, but this is where exposed filament can slowly start becoming less happy over time.";
-    moodSwingsTextEl.textContent = "questionable choices.";
-    recommendationTitleEl.textContent =
-      "This is still usable, but storage matters more now.";
-    recommendationTextEl.textContent =
-      "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out. Be very mindful of humidity and look into dry-boxes for sensitive filaments.";
+    if (humidityStatusEl) humidityStatusEl.textContent = "Keep an eye on it";
+    if (roomMoodTextEl) {
+      roomMoodTextEl.textContent =
+        "This is still workable, but this is where exposed filament can slowly start becoming less happy over time.";
+    }
+    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "questionable choices.";
+    if (recommendationTitleEl) {
+      recommendationTitleEl.textContent =
+        "This is still usable, but storage matters more now.";
+    }
+    if (recommendationTextEl) {
+      recommendationTextEl.textContent =
+        "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out.";
+    }
   } else {
     root.style.setProperty("--humidity-accent", "#B63831");
     root.style.setProperty("--status-bg", "rgba(182, 56, 49, 0.16)");
@@ -88,59 +101,72 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#B63831");
     root.style.setProperty("--line-accent", "#B63831");
 
-    humidityStatusEl.textContent = "Too humid";
-    roomMoodTextEl.textContent =
-      "Yeah, this is the point where your filament starts developing trust issues.";
-    moodSwingsTextEl.textContent = "humidity drama.";
-    recommendationTitleEl.textContent = "This is dry-box territory.";
-    recommendationTextEl.textContent =
-      "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended. Also check out Bambu Lab's official filament drying and storage guide.";
+    if (humidityStatusEl) humidityStatusEl.textContent = "Too humid";
+    if (roomMoodTextEl) {
+      roomMoodTextEl.textContent =
+        "Yeah, this is the point where your filament starts developing trust issues.";
+    }
+    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "humidity drama.";
+    if (recommendationTitleEl) {
+      recommendationTitleEl.textContent = "This is dry-box territory.";
+    }
+    if (recommendationTextEl) {
+      recommendationTextEl.textContent =
+        "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
+    }
   }
 }
 
 function updateLatestUI(latest) {
   if (!latest || latest.humidity == null) {
-    humidityValueEl.textContent = "--";
-    humiditySentenceEl.textContent = "--% humidity.";
-    orbValueEl.textContent = "--%";
-    humidityStatusEl.textContent = "No data yet";
-    lastUpdatedEl.textContent = "Waiting for sensor data";
+    if (humidityValueEl) humidityValueEl.textContent = "--";
+    if (humiditySentenceEl) humiditySentenceEl.textContent = "--% humidity.";
+    if (orbValueEl) orbValueEl.textContent = "--%";
+    if (humidityStatusEl) humidityStatusEl.textContent = "No data yet";
+    if (lastUpdatedEl) lastUpdatedEl.textContent = "Waiting for sensor data";
     return;
   }
 
   const humidity = Math.round(latest.humidity * 10) / 10;
-  humidityValueEl.textContent = humidity;
-  humiditySentenceEl.textContent = `${humidity}% humidity.`;
-  orbValueEl.textContent = `${humidity}%`;
-  lastUpdatedEl.textContent = `Last updated ${formatTime(latest.createdAt)}`;
+
+  if (humidityValueEl) humidityValueEl.textContent = humidity;
+  if (humiditySentenceEl) humiditySentenceEl.textContent = `${humidity}% humidity.`;
+  if (orbValueEl) orbValueEl.textContent = `${humidity}%`;
+  if (lastUpdatedEl) {
+    lastUpdatedEl.textContent = `Last updated ${formatTime(latest.createdAt)}`;
+  }
 
   setThemeByHumidity(humidity);
 }
 
 function updateSummaryUI(data) {
-  avgValueEl.textContent = `${data.avg ?? 0}%`;
-  highValueEl.textContent = `${data.high ?? 0}%`;
-  lowValueEl.textContent = `${data.low ?? 0}%`;
+  if (avgValueEl) avgValueEl.textContent = `${data.avg ?? 0}%`;
+  if (highValueEl) highValueEl.textContent = `${data.high ?? 0}%`;
+  if (lowValueEl) lowValueEl.textContent = `${data.low ?? 0}%`;
 
   const riskHours = Number(data.riskHours ?? 0).toFixed(1);
-  riskHoursTextEl.textContent = `${riskHours} hours`;
-  riskHoursValueEl.textContent = `${riskHours}h`;
+  if (riskHoursTextEl) riskHoursTextEl.textContent = `${riskHours} hours`;
+  if (riskHoursValueEl) riskHoursValueEl.textContent = `${riskHours}h`;
 }
 
+// ---------- Chart helpers ----------
 function hideTooltip() {
+  if (!chartTooltipEl) return;
   chartTooltipEl.classList.add("hidden");
 }
 
 function clearChart() {
-  chartSvgEl.classList.remove("empty");
-  chartLineEl.setAttribute("points", "");
-  chartPointsEl.innerHTML = "";
-  chartLabelsEl.innerHTML = "";
-  chartEmptyStateEl.innerHTML = "";
+  if (chartSvgEl) chartSvgEl.classList.remove("empty");
+  if (chartLineEl) chartLineEl.setAttribute("points", "");
+  if (chartPointsEl) chartPointsEl.innerHTML = "";
+  if (chartLabelsEl) chartLabelsEl.innerHTML = "";
+  if (chartEmptyStateEl) chartEmptyStateEl.innerHTML = "";
   hideTooltip();
 }
 
 function showEmptyChartMessage(message) {
+  if (!chartSvgEl || !chartEmptyStateEl) return;
+
   clearChart();
   chartSvgEl.classList.add("empty");
 
@@ -163,6 +189,8 @@ function showEmptyChartMessage(message) {
 }
 
 function showTooltip(x, y, label, value) {
+  if (!chartTooltipEl) return;
+
   chartTooltipEl.innerHTML = `<strong>${value}%</strong><br>${label}`;
   chartTooltipEl.classList.remove("hidden");
   chartTooltipEl.style.left = `${x}px`;
@@ -170,6 +198,11 @@ function showTooltip(x, y, label, value) {
 }
 
 function buildChart(labels, series, range, uniqueDays = 0) {
+  if (!chartSvgEl || !chartLineEl || !chartPointsEl || !chartLabelsEl) {
+    console.warn("Chart elements missing.");
+    return;
+  }
+
   clearChart();
 
   const notEnoughForLongRange =
@@ -206,7 +239,13 @@ function buildChart(labels, series, range, uniqueDays = 0) {
         : xMin + (index / (labels.length - 1)) * (xMax - xMin);
 
     const y = yMax - ((value - safeMin) / valRange) * (yMax - yMin);
-    return { x, y, value, label: labels[index] };
+
+    return {
+      x,
+      y,
+      value,
+      label: labels[index],
+    };
   });
 
   chartLineEl.setAttribute(
@@ -217,10 +256,7 @@ function buildChart(labels, series, range, uniqueDays = 0) {
   const svgRect = chartSvgEl.getBoundingClientRect();
 
   points.forEach((p) => {
-    const circle = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "circle"
-    );
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", p.x);
     circle.setAttribute("cy", p.y);
     circle.setAttribute("r", "6");
@@ -252,10 +288,12 @@ function buildChart(labels, series, range, uniqueDays = 0) {
     text.setAttribute("y", "334");
     text.setAttribute("text-anchor", "middle");
     text.textContent = label;
+
     chartLabelsEl.appendChild(text);
   });
 }
 
+// ---------- Fetch ----------
 async function fetchHumidity(range = "24h") {
   try {
     const res = await fetch(`/api/humidity?city=Sensor&range=${range}`);
@@ -265,19 +303,28 @@ async function fetchHumidity(range = "24h") {
       throw new Error(data.error || "Failed to fetch humidity");
     }
 
+    // Sensor/UI values should still update even if chart fails
     updateLatestUI(data.latest);
     updateSummaryUI(data);
 
-    buildChart(
-      data.labels || [],
-      data.series || [],
-      range,
-      data.uniqueDays || 0
-    );
+    try {
+      buildChart(
+        data.labels || [],
+        data.series || [],
+        range,
+        data.uniqueDays || 0
+      );
+    } catch (chartError) {
+      console.error("Chart build error:", chartError);
+      showEmptyChartMessage("Chart could not load right now.");
+    }
   } catch (error) {
     console.error("Humidity fetch error:", error);
-    humidityStatusEl.textContent = "Something broke";
-    lastUpdatedEl.textContent = "Could not load sensor data";
+
+    // Only show sensor error if the fetch itself failed
+    if (humidityStatusEl) humidityStatusEl.textContent = "Something broke";
+    if (lastUpdatedEl) lastUpdatedEl.textContent = "Could not load sensor data";
+
     showEmptyChartMessage(
       "Not enough humidity history yet. Let the sensor work for a bit."
     );
@@ -335,20 +382,18 @@ if (heroCard) {
     const rotateY = ((x - centerX) / centerX) * 7;
     const rotateX = ((centerY - y) / centerY) * 7;
 
-    heroCard.style.transform =
-      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 
   heroCard.addEventListener("mouseleave", () => {
-    heroCard.style.transform =
-      "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    heroCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
   });
 }
 
 // ---------- Initial load ----------
 fetchHumidity(currentRange);
 
-// Refresh every 60 seconds
+// ---------- Refresh ----------
 setInterval(() => {
   fetchHumidity(currentRange);
 }, 60000);
