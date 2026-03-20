@@ -591,6 +591,7 @@ h3 {
   margin: 28px 0 0;
   display: grid;
   gap: 14px;
+  width: 500px;
 }
 
 .action-list li {
