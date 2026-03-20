@@ -412,6 +412,10 @@ h3 {
   color: white;
 }
 
+.range-switch:hover {
+  transform: scale(1.1);
+}
+
 /* CHART */
 
 .chart-card {
