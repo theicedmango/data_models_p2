@@ -123,6 +123,7 @@ h2,
 h3 {
   margin: 0;
   letter-spacing: -0.05em;
+  max-width: 10.5ch;
 }
 
 h1 {
