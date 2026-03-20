@@ -404,7 +404,7 @@ h3 {
   font-weight: 800;
   font-size: 0.95rem;
   box-shadow: var(--shadow);
-  cursor: default;
+  cursor: pointer;
 }
 
 .range-switch button.active {
