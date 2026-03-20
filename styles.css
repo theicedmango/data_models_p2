@@ -619,7 +619,6 @@ h3 {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: var(--charcoal);
   color: white;
   padding: 28px;
