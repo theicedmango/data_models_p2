@@ -186,7 +186,15 @@ h3 {
   max-width: none;
 }
 
+#week .section-top {
+  max-width: 1500px;
+}
+
 #week .section-top h2 {
+  max-width: 17ch;
+}
+
+# .section-top h2 {
   max-width: 13.8ch;
 }
 
