@@ -4,14 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Print Climate</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
+
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <main class="site">
 
@@ -24,12 +27,9 @@
       <div class="panel-inner two-col">
         <div class="hero-left">
           <p class="eyebrow">LIVE PRINT ROOM MONITOR</p>
-          <h1>
-            Your printer room has been talking.
-          </h1>
-          <p class="lead">
-            You just haven’t been listening.
-          </p>
+          <h1>Your printer room has been talking.</h1>
+          <p class="lead">You just haven’t been listening.</p>
+
           <p class="body-copy">
             Print Climate turns humidity around my actual 3D printer into a visual story.
             Instead of relying on outdoor weather, it listens to a DHT22 sensor in my room
@@ -46,10 +46,12 @@
         <div class="hero-right">
           <div class="hero-stat-card">
             <span class="stat-label">Current Humidity</span>
+
             <div class="hero-stat">
               <span class="hero-number" id="humidityValue">--</span>
               <span class="hero-unit">%</span>
             </div>
+
             <span class="status-pill good" id="humidityStatus">Loading...</span>
             <p class="micro-note" id="lastUpdated">Waiting for sensor data</p>
           </div>
@@ -64,10 +66,12 @@
       <div class="panel-inner split-large">
         <div class="copy-block">
           <p class="eyebrow light-text">RIGHT NOW</p>
+
           <h2>
             The room is sitting at
             <span class="dynamic-accent" id="humiditySentence">--% humidity.</span>
           </h2>
+
           <p class="body-copy light-text soft" id="roomMoodText">
             Waiting for the room to say something dramatic.
           </p>
@@ -97,12 +101,14 @@
       <div class="panel-inner">
         <div class="section-top">
           <p class="eyebrow">ROOM HISTORY</p>
+
           <h2>
             Your room had a few
             <span class="dynamic-accent" id="moodSwingsText">mood swings.</span>
           </h2>
+
           <p class="body-copy narrow" id="chartDescription">
-            This chart tracks how humidity changes over time, so you can catch patterns instead of relying on one isolated reading.
+            This chart tracks how humidity changes over time.
           </p>
         </div>
 
@@ -114,7 +120,7 @@
 
         <div class="chart-card">
           <div class="chart-wrap">
-            <svg viewBox="0 0 1000 360" class="chart" aria-label="humidity chart">
+            <svg viewBox="0 0 1000 360" class="chart">
               <g class="grid">
                 <line x1="80" y1="60" x2="950" y2="60"></line>
                 <line x1="80" y1="120" x2="950" y2="120"></line>
@@ -125,10 +131,9 @@
 
               <rect x="80" y="60" width="870" height="50" class="danger-zone"></rect>
 
-              <polyline id="chartLine" class="line-main" points=""></polyline>
-              <g id="chartPoints" class="points"></g>
-              <g id="chartLabels" class="axis-labels"></g>
-              <g id="chartEmptyState"></g>
+              <polyline id="chartLine" class="line-main"></polyline>
+              <g id="chartPoints"></g>
+              <g id="chartLabels"></g>
             </svg>
 
             <div id="chartTooltip" class="chart-tooltip hidden"></div>
@@ -139,144 +144,72 @@
 
     <!-- MATERIALS -->
     <section class="panel beige" id="materials">
-      <div class="bg-pill-group reveal-bg">
-        <span class="parallax" data-speed="0.08"></span>
-        <span class="parallax" data-speed="0.12"></span>
-        <span class="parallax" data-speed="0.10"></span>
-      </div>
-
       <div class="panel-inner">
         <div class="section-top">
           <p class="eyebrow">FILAMENT REACTIONS</p>
-          <h2>
-            Some materials are chill.<br>
-            Others are very dramatic.
-          </h2>
+          <h2>Some materials are chill.<br>Others are very dramatic.</h2>
         </div>
 
         <div class="material-grid">
           <article class="material-box">
             <h3>PLA</h3>
-            <p>
-              Usually the least dramatic one in the room. It can tolerate more day-to-day variation, but better storage is still a smart habit.
-            </p>
+            <p>Least dramatic. Still benefits from dry storage.</p>
           </article>
 
           <article class="material-box">
             <h3>PETG</h3>
-            <p>
-              More likely to absorb moisture over time. If the room stays humid, drying it before an important print is probably worth it.
-            </p>
+            <p>Absorbs moisture. Dry before important prints.</p>
           </article>
 
           <article class="material-box">
             <h3>TPU / Nylon</h3>
-            <p>
-              These are the divas. If the humidity hangs around too long, they will absolutely make it your problem later.
-            </p>
+            <p>Very sensitive. Will absolutely cause problems if humid.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SUMMARY -->
-    <section class="panel dark" id="week">
-      <div class="bg-circle big-circle parallax reveal-bg" data-speed="0.1"></div>
-
-      <div class="panel-inner">
-        <div class="section-top">
-          <p class="eyebrow light-text">SUMMARY</p>
-          <h2>
-            This room spent
-            <span class="dynamic-accent" id="riskHoursText">-- hours</span>
-            in the “maybe dry your filament” zone.
-          </h2>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-tile">
-            <span class="tile-label">Average</span>
-            <strong id="avgValue">--%</strong>
-          </div>
-          <div class="stat-tile">
-            <span class="tile-label">Highest Reading</span>
-            <strong id="highValue">--%</strong>
-          </div>
-          <div class="stat-tile">
-            <span class="tile-label">Lowest Reading</span>
-            <strong id="lowValue">--%</strong>
-          </div>
-          <div class="stat-tile">
-            <span class="tile-label">Risk Hours</span>
-            <strong id="riskHoursValue">--h</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ACTION -->
+    <!-- ACTION (FIXED STRUCTURE) -->
     <section class="panel light" id="action">
       <div class="panel-inner split-large">
-        <div class="copy-block">
-          <p class="eyebrow">SO WHAT SHOULD YOU DO?</p>
-          <h2>
-            Cool visuals are nice.<br>
-            Decisions are better.
-          </h2>
-          <ul class="action-list">
-            <li>Good time for a casual PLA print</li>
-            <li>Store exposed filament if humidity keeps climbing</li>
-            <li>Dry PETG or nylon before long prints</li>
-            <li>Check again before overnight jobs</li>
-          </ul>
+
+        <!-- LEFT SIDE -->
+        <div class="left-column">
+
+          <div class="copy-block">
+            <p class="eyebrow">SO WHAT SHOULD YOU DO?</p>
+            <h2>
+              Cool visuals are nice.<br>
+              Decisions are better.
+            </h2>
+          </div>
+
+          <div class="action-list-wrap">
+            <ul class="action-list">
+              <li>Good time for a casual PLA print</li>
+              <li>Store exposed filament if humidity keeps climbing</li>
+              <li>Dry PETG or nylon before long prints</li>
+              <li>Check again before overnight jobs</li>
+            </ul>
+          </div>
+
         </div>
 
-        <div class="action-card">
-          <span class="status-pill warn">Current recommendation</span>
-          <h3 id="recommendationTitle">Loading recommendation...</h3>
-          <p id="recommendationText">
-            Waiting for your humidity data so the room can start judging your filament habits.
-          </p>
-        </div>
-      </div>
-    </section>
+        <!-- RIGHT SIDE -->
+        <div class="right">
+          <div class="action-card">
+            <span class="status-pill warn">Current recommendation</span>
 
-    <!-- PIPELINE -->
-    <section class="panel charcoal" id="pipeline">
-      <div class="panel-inner">
-        <div class="section-top">
-          <p class="eyebrow light-text">BEHIND THE SCENES</p>
-          <h2 class="light-text">
-            How this tiny humidity drama gets to your screen
-          </h2>
+            <h3 id="recommendationTitle">
+              Loading recommendation...
+            </h3>
+
+            <p id="recommendationText">
+              Waiting for your humidity data so the room can start judging your filament habits.
+            </p>
+          </div>
         </div>
 
-        <div class="pipeline-row">
-          <div class="pipe-card">
-            <span>Collect</span>
-            <strong>DHT22 Sensor</strong>
-          </div>
-          <div class="pipe-arrow">→</div>
-          <div class="pipe-card">
-            <span>Read + Send</span>
-            <strong>ESP32</strong>
-          </div>
-          <div class="pipe-arrow">→</div>
-          <div class="pipe-card">
-            <span>Store</span>
-            <strong>MongoDB</strong>
-          </div>
-          <div class="pipe-arrow">→</div>
-          <div class="pipe-card">
-            <span>Display</span>
-            <strong>Web Interface</strong>
-          </div>
-          <div class="pipe-arrow">→</div>
-          <div class="pipe-card">
-            <span>Human Action</span>
-            <strong>Print / Store / Dry</strong>
-          </div>
-        </div>
       </div>
     </section>
 
