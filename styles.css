@@ -207,7 +207,15 @@ h3 {
 }
 
 #action .action-card h3 {
-  max-width: 10ch;
+  max-width: 20ch;
+}
+
+#action .insight-card {
+  padding: 18px 24px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  max-width: 720px;
+  font-weight: 500;
 }
 
 #pipeline .section-top h2 {
