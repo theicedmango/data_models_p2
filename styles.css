@@ -199,7 +199,7 @@ h3 {
 }
 
 #action .split-large {
-  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-columns: 1.3fr 0.7fr;
 }
 
 #action .copy-block h2 {
