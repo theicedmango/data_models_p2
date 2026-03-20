@@ -329,3 +329,26 @@ fetchHumidity(currentRange);
 setInterval(() => {
   fetchHumidity(currentRange);
 }, 60000);
+
+// ---------- HERO CARD TILT ----------
+const heroCard = document.querySelector(".hero-stat-card");
+
+if (heroCard) {
+  heroCard.addEventListener("mousemove", (event) => {
+    const rect = heroCard.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateY = ((x - centerX) / centerX) * 6;
+    const rotateX = ((centerY - y) / centerY) * 6;
+
+    heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  heroCard.addEventListener("mouseleave", () => {
+    heroCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+  });
+}
