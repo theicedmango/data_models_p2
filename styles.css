@@ -255,9 +255,9 @@ h3 {
 
 .hero-printer-image {
   position: absolute;
-  right: -120px;
+  right: -10px;
   bottom: -40px;
-  width: 720px;
+  width: 1440px;
   max-width: none;
   height: auto;
   z-index: 1;
