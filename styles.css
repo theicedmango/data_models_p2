@@ -194,29 +194,20 @@ h3 {
   max-width: 25ch;
 }
 
-# .section-top h2 {
-  max-width: 13.8ch;
-}
-
 #action .split-large {
-  grid-template-columns: 1.2fr 0.8fr;
-  align-items: stretch;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 42px;
+  align-items: center;
 }
 
 #action .copy-block h2 {
-  max-width: 15ch;
+  max-width: 11.5ch;
 }
 
 #action .action-card h3 {
-  max-width: 20ch;
-}
-
-#action .insight-card {
-  padding: 18px 24px;
-  border-radius: 16px;
-  font-size: 0.95rem;
-  max-width: 720px;
-  font-weight: 500;
+  max-width: 12ch;
+  font-size: 1.15rem;
+  line-height: 1.12;
 }
 
 #pipeline .section-top h2 {
@@ -226,8 +217,11 @@ h3 {
 /* HERO */
 
 .hero-right {
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 560px;
 }
 
 .hero-stat-card {
@@ -243,14 +237,8 @@ h3 {
     background-color 0.28s ease;
   cursor: default;
   transform-style: preserve-3d;
-}
-
-.hero-right {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 560px;
+  z-index: 3;
 }
 
 .hero-printer-image {
@@ -263,11 +251,6 @@ h3 {
   z-index: 1;
   pointer-events: none;
   user-select: none;
-}
-
-.hero-stat-card {
-  position: relative;
-  z-index: 3;
 }
 
 .stat-label {
@@ -495,14 +478,16 @@ h3 {
   transition: stroke 0.35s ease;
 }
 
-.points circle {
+.points circle,
+#chartPoints circle {
   fill: var(--line-accent);
   stroke: white;
   stroke-width: 3;
   transition: fill 0.35s ease;
 }
 
-.axis-labels text {
+.axis-labels text,
+#chartLabels text {
   fill: rgba(40, 40, 48, 0.55);
   font-size: 12px;
   font-weight: 700;
@@ -611,13 +596,37 @@ h3 {
 
 /* ACTION */
 
+#action .action-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 42px;
+  align-items: center;
+}
+
+#action .action-card-column {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#action .action-content-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.action-list-wrap {
+  margin-top: 24px;
+}
+
 .action-list {
   list-style: none;
   padding: 0;
-  margin: 28px 0 0;
+  margin: 0;
   display: grid;
   gap: 14px;
-  width: 500px;
+  width: 100%;
+  max-width: 520px;
 }
 
 .action-list li {
@@ -641,26 +650,35 @@ h3 {
 }
 
 .action-card {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   background: var(--charcoal);
   color: white;
-  padding: 28px;
-  border-radius: var(--radius-xl);
+  padding: 24px 26px;
+  border-radius: 28px;
   box-shadow: var(--shadow);
-}
-
-.action-card h3 {
-  font-size: 2rem;
-  margin: 16px 0 14px;
-  line-height: 1.1;
-  font-weight: 600;
+  width: 100%;
+  max-width: 470px;
+  min-height: 360px;
 }
 
 .action-card p {
-  line-height: 1.7;
+  line-height: 1.65;
   color: rgba(255, 255, 255, 0.82);
+  max-width: 34ch;
+  font-size: 0.98rem;
+}
+
+#action .action-card .status-pill {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+}
+
+#action .action-card h3 {
+  margin: 0 0 16px;
 }
 
 /* PIPELINE */
@@ -895,7 +913,8 @@ h3 {
   .split-large,
   .material-grid,
   .stats-grid,
-  #action .split-large {
+  #action .split-large,
+  #action .action-layout {
     grid-template-columns: 1fr;
   }
 
@@ -925,18 +944,29 @@ h3 {
   .hero-number {
     font-size: 4.8rem;
   }
-  
-  .hero-right {
-  min-height: 420px;
-}
 
-.hero-printer-image {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  width: min(100%, 520px);
-  margin-top: 24px;
-}
+  .hero-right {
+    min-height: 420px;
+  }
+
+  .hero-printer-image {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(100%, 520px);
+    margin-top: 24px;
+  }
+
+  #action .action-card-column,
+  #action .action-content-column {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .action-card,
+  .action-list {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 700px) {
@@ -977,5 +1007,9 @@ h3 {
   #day .section-top h2 {
     white-space: normal;
     max-width: none;
+  }
+
+  .action-card {
+    min-height: auto;
   }
 }
