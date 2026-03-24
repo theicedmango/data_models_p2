@@ -565,7 +565,7 @@ h3 {
 }
 
 .material-box {
-  background: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255);
   padding: 26px;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
@@ -575,6 +575,20 @@ h3 {
 .material-box p {
   line-height: 1.7;
   margin: 14px 0 0;
+}
+
+.filament-image-wrapper {
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+}
+
+.filament-image-wrapper img {
+  max-width: 100%;
+  width: min(900px, 100%);
+  border-radius: 24px;
+  display: block;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
 /* SUMMARY */
@@ -606,21 +620,6 @@ h3 {
   line-height: 1;
   letter-spacing: -0.05em;
   font-weight: 800;
-}
-
-/* filament comparison image */
-.filament-image-wrapper {
-  margin-top: 48px;
-  display: flex;
-  justify-content: center;
-}
-
-.filament-image-wrapper img {
-  max-width: 100%;
-  width: min(900px, 100%);
-  border-radius: 16px;
-  display: block;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
 /* ACTION */
