@@ -205,9 +205,10 @@ h3 {
 }
 
 #action .action-card h3 {
-  max-width: 12ch;
-  font-size: 1.15rem;
-  line-height: 1.12;
+  max-width: 16ch;
+  font-size: 2rem;
+  line-height: 1.08;
+  font-weight: 700;
 }
 
 #pipeline .section-top h2 {
