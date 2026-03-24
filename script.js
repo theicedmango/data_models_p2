@@ -58,9 +58,14 @@ function setThemeByHumidity(humidity) {
   const fillPercent = `${clamp(humidity, 0, 100)}%`;
   root.style.setProperty("--fill-percent", fillPercent);
 
-  // reset recommendation pill state first
+  // reset recommendation pill state
   if (recommendationPillEl) {
     recommendationPillEl.classList.remove("good", "warn", "bad");
+  }
+
+  // reset hero pill state
+  if (humidityStatusEl) {
+    humidityStatusEl.classList.remove("good", "warn", "bad");
   }
 
   if (humidity <= 45) {
@@ -70,16 +75,23 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#22A352");
     root.style.setProperty("--line-accent", "#22A352");
 
-    if (humidityStatusEl) humidityStatusEl.textContent = "Pretty safe";
+    if (humidityStatusEl) {
+      humidityStatusEl.textContent = "Pretty safe";
+      humidityStatusEl.classList.add("good");
+    }
+
     if (roomMoodTextEl) {
       roomMoodTextEl.textContent =
         "This is the kind of room humidity that most filament can live with pretty comfortably.";
     }
+
     if (moodSwingsTextEl) moodSwingsTextEl.textContent = "calm days.";
+
     if (recommendationTitleEl) {
       recommendationTitleEl.textContent =
         "This is a pretty comfortable range for most printing.";
     }
+
     if (recommendationTextEl) {
       recommendationTextEl.textContent =
         "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room.";
@@ -88,6 +100,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA should be totally fine";
     if (miniTag2El) miniTag2El.textContent = "PETG is still comfortable";
     if (miniTag3El) miniTag3El.textContent = "Nylon still prefers dry storage";
+
+    if (actionItem1El) actionItem1El.textContent = "Good time for a casual PLA print";
+    if (actionItem2El) actionItem2El.textContent = "Store filament normally";
+    if (actionItem3El) actionItem3El.textContent = "No urgent drying needed";
+    if (actionItem4El) actionItem4El.textContent = "Check again before overnight jobs";
 
     if (recommendationPillEl) {
       recommendationPillEl.classList.add("good");
@@ -100,16 +117,23 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#CCA23C");
     root.style.setProperty("--line-accent", "#CCA23C");
 
-    if (humidityStatusEl) humidityStatusEl.textContent = "Keep an eye on it";
+    if (humidityStatusEl) {
+      humidityStatusEl.textContent = "Keep an eye on it";
+      humidityStatusEl.classList.add("warn");
+    }
+
     if (roomMoodTextEl) {
       roomMoodTextEl.textContent =
         "This is still workable, but this is where exposed filament can slowly start becoming less happy over time.";
     }
-    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "questionable choices.";
+
+    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "questionable days.";
+
     if (recommendationTitleEl) {
       recommendationTitleEl.textContent =
         "This is still usable, but storage matters more now.";
     }
+
     if (recommendationTextEl) {
       recommendationTextEl.textContent =
         "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out.";
@@ -118,6 +142,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA is still usually okay";
     if (miniTag2El) miniTag2El.textContent = "PETG should be watched";
     if (miniTag3El) miniTag3El.textContent = "Nylon should stay sealed";
+
+    if (actionItem1El) actionItem1El.textContent = "PLA is still usually okay";
+    if (actionItem2El) actionItem2El.textContent = "Store exposed filament";
+    if (actionItem3El) actionItem3El.textContent = "Dry PETG or nylon before long prints";
+    if (actionItem4El) actionItem4El.textContent = "Monitor the room through the day";
 
     if (recommendationPillEl) {
       recommendationPillEl.classList.add("warn");
@@ -130,15 +159,22 @@ function setThemeByHumidity(humidity) {
     root.style.setProperty("--orb-accent", "#B63831");
     root.style.setProperty("--line-accent", "#B63831");
 
-    if (humidityStatusEl) humidityStatusEl.textContent = "Too humid";
+    if (humidityStatusEl) {
+      humidityStatusEl.textContent = "Too humid";
+      humidityStatusEl.classList.add("bad");
+    }
+
     if (roomMoodTextEl) {
       roomMoodTextEl.textContent =
         "Yeah, this is the point where your filament starts developing trust issues.";
     }
-    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "humidity drama.";
+
+    if (moodSwingsTextEl) moodSwingsTextEl.textContent = "risky spikes.";
+
     if (recommendationTitleEl) {
       recommendationTitleEl.textContent = "This is dry-box territory.";
     }
+
     if (recommendationTextEl) {
       recommendationTextEl.textContent =
         "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
@@ -147,6 +183,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA should not stay out too long";
     if (miniTag2El) miniTag2El.textContent = "PETG should be stored now";
     if (miniTag3El) miniTag3El.textContent = "Nylon needs a dry box";
+
+    if (actionItem1El) actionItem1El.textContent = "Avoid leaving filament exposed";
+    if (actionItem2El) actionItem2El.textContent = "Store all active spools now";
+    if (actionItem3El) actionItem3El.textContent = "Dry PETG, TPU, or nylon before printing";
+    if (actionItem4El) actionItem4El.textContent = "Delay sensitive or long prints if possible";
 
     if (recommendationPillEl) {
       recommendationPillEl.classList.add("bad");
