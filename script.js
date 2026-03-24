@@ -447,7 +447,7 @@ function handleParallax() {
   parallaxElements.forEach((el) => {
     const speed = parseFloat(el.dataset.speed || "0.1");
     const offset = scrollY * speed;
-    el.style.transform = `translate3d(0, ${offset}px, 0)`;
+    el.style.transform = `translate3d(0, ${-offset}px, 0)`;
   });
 }
 
