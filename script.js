@@ -16,6 +16,11 @@ const lowValueEl = document.getElementById("lowValue");
 const riskHoursTextEl = document.getElementById("riskHoursText");
 const riskHoursValueEl = document.getElementById("riskHoursValue");
 
+const actionItem1El = document.getElementById("actionItem1");
+const actionItem2El = document.getElementById("actionItem2");
+const actionItem3El = document.getElementById("actionItem3");
+const actionItem4El = document.getElementById("actionItem4");
+
 const chartSvgEl = document.querySelector(".chart");
 const chartLineEl = document.getElementById("chartLine");
 const chartPointsEl = document.getElementById("chartPoints");
