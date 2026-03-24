@@ -73,7 +73,7 @@ function setThemeByHumidity(humidity) {
     humidityStatusEl.classList.remove("good", "warn", "bad");
   }
 
-  if (humidity <= 45) {
+  if (humidity <= 40) {
     root.style.setProperty("--humidity-accent", "#22A352");
     root.style.setProperty("--status-bg", "rgba(34, 163, 82, 0.14)");
     root.style.setProperty("--status-text", "#17733A");
@@ -115,7 +115,7 @@ function setThemeByHumidity(humidity) {
       recommendationPillEl.classList.add("good");
       recommendationPillEl.textContent = "Ideal conditions";
     }
-  } else if (humidity <= 60) {
+  } else if (humidity <= 55) {
     root.style.setProperty("--humidity-accent", "#CCA23C");
     root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
     root.style.setProperty("--status-text", "#8D6B15");
