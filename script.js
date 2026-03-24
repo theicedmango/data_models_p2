@@ -32,6 +32,8 @@ const miniTag1El = document.getElementById("miniTag1");
 const miniTag2El = document.getElementById("miniTag2");
 const miniTag3El = document.getElementById("miniTag3");
 
+const recommendationPillEl = document.getElementById("recommendationPill");
+
 const root = document.documentElement;
 
 // ---------- Helpers ----------
@@ -55,6 +57,11 @@ function clamp(value, min, max) {
 function setThemeByHumidity(humidity) {
   const fillPercent = `${clamp(humidity, 0, 100)}%`;
   root.style.setProperty("--fill-percent", fillPercent);
+
+  // reset recommendation pill state first
+  if (recommendationPillEl) {
+    recommendationPillEl.classList.remove("good", "warn", "bad");
+  }
 
   if (humidity <= 45) {
     root.style.setProperty("--humidity-accent", "#22A352");
@@ -81,6 +88,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA should be totally fine";
     if (miniTag2El) miniTag2El.textContent = "PETG is still comfortable";
     if (miniTag3El) miniTag3El.textContent = "Nylon still prefers dry storage";
+
+    if (recommendationPillEl) {
+      recommendationPillEl.classList.add("good");
+      recommendationPillEl.textContent = "Ideal conditions";
+    }
   } else if (humidity <= 60) {
     root.style.setProperty("--humidity-accent", "#CCA23C");
     root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
@@ -106,6 +118,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA is still usually okay";
     if (miniTag2El) miniTag2El.textContent = "PETG should be watched";
     if (miniTag3El) miniTag3El.textContent = "Nylon should stay sealed";
+
+    if (recommendationPillEl) {
+      recommendationPillEl.classList.add("warn");
+      recommendationPillEl.textContent = "Monitor conditions";
+    }
   } else {
     root.style.setProperty("--humidity-accent", "#B63831");
     root.style.setProperty("--status-bg", "rgba(182, 56, 49, 0.16)");
@@ -130,6 +147,11 @@ function setThemeByHumidity(humidity) {
     if (miniTag1El) miniTag1El.textContent = "PLA should not stay out too long";
     if (miniTag2El) miniTag2El.textContent = "PETG should be stored now";
     if (miniTag3El) miniTag3El.textContent = "Nylon needs a dry box";
+
+    if (recommendationPillEl) {
+      recommendationPillEl.classList.add("bad");
+      recommendationPillEl.textContent = "High humidity warning";
+    }
   }
 }
 
