@@ -28,6 +28,10 @@ const parallaxElements = document.querySelectorAll(".parallax");
 const revealElements = document.querySelectorAll(".reveal-bg");
 const heroCard = document.querySelector(".hero-stat-card");
 
+const miniTag1El = document.getElementById("miniTag1");
+const miniTag2El = document.getElementById("miniTag2");
+const miniTag3El = document.getElementById("miniTag3");
+
 const root = document.documentElement;
 
 // ---------- Helpers ----------
@@ -73,6 +77,10 @@ function setThemeByHumidity(humidity) {
       recommendationTextEl.textContent =
         "PLA should be totally fine, and even more sensitive materials are in a much better place here than in a damp room.";
     }
+
+    if (miniTag1El) miniTag1El.textContent = "PLA should be totally fine";
+    if (miniTag2El) miniTag2El.textContent = "PETG is still comfortable";
+    if (miniTag3El) miniTag3El.textContent = "Nylon still prefers dry storage";
   } else if (humidity <= 60) {
     root.style.setProperty("--humidity-accent", "#CCA23C");
     root.style.setProperty("--status-bg", "rgba(204, 162, 60, 0.16)");
@@ -94,6 +102,10 @@ function setThemeByHumidity(humidity) {
       recommendationTextEl.textContent =
         "PLA is usually still okay, but PETG, TPU, and nylon are starting to become much more sensitive to being left out.";
     }
+
+    if (miniTag1El) miniTag1El.textContent = "PLA is still usually okay";
+    if (miniTag2El) miniTag2El.textContent = "PETG should be watched";
+    if (miniTag3El) miniTag3El.textContent = "Nylon should stay sealed";
   } else {
     root.style.setProperty("--humidity-accent", "#B63831");
     root.style.setProperty("--status-bg", "rgba(182, 56, 49, 0.16)");
@@ -114,6 +126,10 @@ function setThemeByHumidity(humidity) {
       recommendationTextEl.textContent =
         "At this point, long exposure is not doing your filament any favors. Drying and sealed storage are strongly recommended.";
     }
+
+    if (miniTag1El) miniTag1El.textContent = "PLA should not stay out too long";
+    if (miniTag2El) miniTag2El.textContent = "PETG should be stored now";
+    if (miniTag3El) miniTag3El.textContent = "Nylon needs a dry box";
   }
 }
 
