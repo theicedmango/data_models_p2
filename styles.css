@@ -309,8 +309,8 @@ h3 {
 }
 
 .status-pill.good {
-  background: var(--status-bg);
-  color: var(--status-text);
+  background: rgba(34, 163, 82, 0.16);
+  color: #22a352;
   box-shadow: 0 0 10px rgba(34,163,82,0.2);
 }
 
