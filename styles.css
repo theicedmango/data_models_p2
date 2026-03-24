@@ -311,11 +311,19 @@ h3 {
 .status-pill.good {
   background: var(--status-bg);
   color: var(--status-text);
+  box-shadow: 0 0 10px rgba(34,163,82,0.2);
 }
 
 .status-pill.warn {
   background: rgba(204, 162, 60, 0.16);
   color: #fcc12b;
+  box-shadow: 0 0 10px rgba(204,162,60,0.2);
+}
+
+.status-pill.bad {
+  background: rgba(182, 56, 49, 0.16);
+  color: #B63831;
+  box-shadow: 0 0 10px rgba(182,56,49,0.2);
 }
 
 .hero-pills {
