@@ -44,24 +44,24 @@
         </div>
 
         <div class="hero-right">
-  <img
-    src="images/printer1.png"
-    alt="Bambu Lab 3D printer"
-    class="hero-printer-image"
-  />
+          <img
+            src="images/printer1.png"
+            alt="Bambu Lab 3D printer"
+            class="hero-printer-image"
+          />
 
-  <div class="hero-stat-card">
-    <span class="stat-label">Current Humidity</span>
+          <div class="hero-stat-card">
+            <span class="stat-label">Current Humidity</span>
 
-    <div class="hero-stat">
-      <span class="hero-number" id="humidityValue">--</span>
-      <span class="hero-unit">%</span>
-    </div>
+            <div class="hero-stat">
+              <span class="hero-number" id="humidityValue">--</span>
+              <span class="hero-unit">%</span>
+            </div>
 
-    <span class="status-pill good" id="humidityStatus">Loading...</span>
-    <p class="micro-note" id="lastUpdated">Waiting for sensor data</p>
-  </div>
-</div>
+            <span class="status-pill good" id="humidityStatus">Loading...</span>
+            <p class="micro-note" id="lastUpdated">Waiting for sensor data</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -138,8 +138,8 @@
               <rect x="80" y="60" width="870" height="50" class="danger-zone"></rect>
 
               <polyline id="chartLine" class="line-main"></polyline>
-              <g id="chartPoints"></g>
-              <g id="chartLabels"></g>
+              <g id="chartPoints" class="points"></g>
+              <g id="chartLabels" class="axis-labels"></g>
               <g id="chartEmptyState"></g>
             </svg>
 
@@ -176,12 +176,12 @@
       </div>
     </section>
 
-    <!-- ACTION (FIXED STRUCTURE) -->
+    <!-- ACTION -->
     <section class="panel light" id="action">
-      <div class="panel-inner split-large">
+      <div class="panel-inner split-large action-layout">
 
-        <!-- RIGHT SIDE -->
-        <div class="left-column">
+        <!-- LEFT: CARD -->
+        <div class="action-card-column">
           <div class="action-card">
             <span class="status-pill warn">Current recommendation</span>
 
@@ -195,9 +195,8 @@
           </div>
         </div>
 
-<!-- LEFT SIDE -->
-        <div class="right">
-
+        <!-- RIGHT: TEXT + LIST -->
+        <div class="action-content-column">
           <div class="copy-block">
             <p class="eyebrow">SO WHAT SHOULD YOU DO?</p>
             <h2>
@@ -214,9 +213,8 @@
               <li>Check again before overnight jobs</li>
             </ul>
           </div>
-
         </div>
-        
+
       </div>
     </section>
 
