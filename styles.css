@@ -611,6 +611,7 @@ h3 {
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
   border: 1px solid transparent;
+  z-index: 5;
 }
 
 .material-box p {
