@@ -126,7 +126,7 @@ body {
   width: min(1320px, 100%);
   margin: 0 auto;
   position: relative;
-  z-index: 3;
+  z-index: 5;
 }
 
 .two-col {
