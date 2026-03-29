@@ -69,6 +69,7 @@ body {
   pointer-events: none;
   user-select: none;
   will-change: transform;
+  z-index: 1;
 }
 
 .filament-a {
@@ -100,6 +101,7 @@ body {
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  z-index: 0;
 }
 
 .panel.light {
