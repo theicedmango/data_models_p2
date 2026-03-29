@@ -601,6 +601,7 @@ h3 {
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
   margin-top: 22px;
+  z-index: 5;
 }
 
 .material-box {
